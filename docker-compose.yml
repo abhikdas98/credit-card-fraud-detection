@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api_engine/Dockerfile
+    container_name: fraud_api
+    ports:
+    - "8001:8000"   # API
+
+    volumes:
+      - ./models:/app/models
+    restart: always
+
+  ui:
+    build:
+      context: ./app_ui
+      dockerfile: Dockerfile
+    container_name: fraud_ui
+    ports:
+      - "5001:5000"
+    depends_on:
+      - api
+    restart: always

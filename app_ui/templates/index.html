@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fraud Detection System</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin: auto;
+            width: 400px;
+            border-radius: 10px;
+        }
+        input, select {
+            width: 90%;
+            padding: 8px;
+            margin: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>💳 Fraud Detection System</h1>
+
+<form method="POST" action="/predict">
+
+    <input type="text" name="trans_date_trans_time" placeholder="YYYY-MM-DD HH:MM:SS" required>
+    <input type="text" name="cc_num" placeholder="Card Number" required>
+    <input type="text" name="merchant" placeholder="Merchant" required>
+
+    <select name="category">
+        <option value="personal_care">Personal Care</option>
+        <option value="health_fitness">Health & Fitness</option>
+    </select>
+
+    <input type="text" name="amt" placeholder="Amount" required>
+
+    <select name="gender">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+    </select>
+
+    <input type="text" name="city" placeholder="City" required>
+    <input type="text" name="state" placeholder="State" required>
+    <input type="text" name="job" placeholder="Job" required>
+    <input type="text" name="dob" placeholder="YYYY-MM-DD" required>
+
+    <button type="submit">Predict</button>
+</form>
+
+{% if result %}
+<div class="result">
+    <h3>Result:</h3>
+    <p><b>Prediction:</b> {{ result.prediction }}</p>
+    <p><b>Probability:</b> {{ result.fraud_probability }}</p>
+</div>
+{% endif %}
+
+{% if error %}
+<div class="result">
+    <p style="color:red;">Error: {{ error }}</p>
+</div>
+{% endif %}
+
+</body>
+</html>

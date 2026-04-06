@@ -1,0 +1,19 @@
+data:
+  raw: data/raw/FraudTest.csv
+
+model:
+  model_path: models/model.pkl
+  threshold_path: models/threshold.pkl
+  encoding_map_path: models/encoding_maps.pkl
+  columns_path: models/train_columns.pkl
+
+training:
+  test_size: 0.2
+  random_state: 42
+
+cost:
+  false_negative: 10000
+  false_positive: 200
+
+tuning:
+  n_iter: 10

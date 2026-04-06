@@ -1,7 +1,11 @@
-numpy
 pandas
-os
-sys
+numpy
 scikit-learn
+xgboost
+fastapi
+uvicorn
+flask
+requests
+pyyaml
 
 ## -e .

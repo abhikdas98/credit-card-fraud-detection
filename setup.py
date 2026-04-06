@@ -1,6 +1,7 @@
 '''
-This is the setup file for the network security project.
+This is the setup file for the credit card fraud detection project.
 It is used to install the required packages and dependencies for the project.
+It also finds the packages in the project and includes them in the installation process.
 '''
 
 from setuptools import setup, find_packages
