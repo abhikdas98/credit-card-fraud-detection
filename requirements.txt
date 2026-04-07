@@ -7,5 +7,6 @@ uvicorn
 flask
 requests
 pyyaml
+kafka-python
 
 ## -e .
