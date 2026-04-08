@@ -21,6 +21,25 @@ services:
 
       # ✅ MEMORY FIX (CRITICAL)
       KAFKA_HEAP_OPTS: "-Xms128M -Xmx256M"
+  producer:
+    build:
+      context: .
+      dockerfile: api_engine/Dockerfile
+    container_name: fraud_producer
+    command: ["python", "kafka/producer.py"]
+    depends_on:
+      - kafka
+
+  consumer:
+    build:
+      context: .
+      dockerfile: api_engine/Dockerfile
+    container_name: fraud_consumer
+    command: ["python", "kafka/consumer.py"]
+    volumes:
+      - ./models:/app/models
+    depends_on:
+      - kafka
   api:
     build:
       context: .
