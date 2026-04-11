@@ -1,6 +1,5 @@
-version: "3.9"
-
 services:
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     environment:
@@ -18,17 +17,39 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
-      # ✅ MEMORY FIX (CRITICAL)
       KAFKA_HEAP_OPTS: "-Xms128M -Xmx256M"
+
+  api:
+    build:
+      context: .
+      dockerfile: api_engine/Dockerfile
+    container_name: fraud_api
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./models:/app/models
+    environment:
+      - PYTHONPATH=/app
+
+  ui:
+    build:
+      context: ./app_ui
+    container_name: fraud_ui
+    ports:
+      - "5001:5000"
+
   producer:
     build:
       context: .
       dockerfile: api_engine/Dockerfile
     container_name: fraud_producer
     command: ["python", "kafka/producer.py"]
+    volumes:
+      - ./data:/app/data
     depends_on:
       - kafka
+    environment:
+      - PYTHONPATH=/app
 
   consumer:
     build:
@@ -38,27 +59,8 @@ services:
     command: ["python", "kafka/consumer.py"]
     volumes:
       - ./models:/app/models
+      - ./data:/app/data
     depends_on:
       - kafka
-  api:
-    build:
-      context: .
-      dockerfile: api_engine/Dockerfile
-    container_name: fraud_api
-    ports:
-    - "8001:8000"   # API
-
-    volumes:
-      - ./models:/app/models
-    restart: always
-
-  ui:
-    build:
-      context: ./app_ui
-      dockerfile: Dockerfile
-    container_name: fraud_ui
-    ports:
-      - "5001:5000"
-    depends_on:
-      - api
-    restart: always
+    environment:
+      - PYTHONPATH=/app

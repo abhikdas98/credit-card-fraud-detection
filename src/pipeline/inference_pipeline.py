@@ -16,9 +16,25 @@ class InferencePipeline:
     def preprocess(self, data: dict):
         df = pd.DataFrame([data])
 
-        # Reuse SAME functions
-        df = preprocess_data(df)
-        df = create_features(df)
+        # Convert datetime
+        df['trans_date_trans_time'] = pd.to_datetime(
+        df['trans_date_trans_time'], format="%d-%m-%Y %H:%M"
+        )
+
+        df['dob'] = pd.to_datetime(
+            df['dob'], format="%d-%m-%Y"
+        )
+
+        # Feature engineering
+        df['hour'] = df['trans_date_trans_time'].dt.hour
+        df['day_of_week'] = df['trans_date_trans_time'].dt.dayofweek
+        df['age'] = (df['trans_date_trans_time'] - df['dob']).dt.days // 365
+
+        # Drop columns
+        df = df.drop(columns=['first', 'last', 'street', 'trans_num'], errors='ignore')
+
+        # ✅ CRITICAL FIX
+        df = df.drop(columns=['trans_date_trans_time', 'dob'], errors='ignore')
 
         return df
 

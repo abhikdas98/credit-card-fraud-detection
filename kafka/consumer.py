@@ -1,28 +1,58 @@
 from kafka import KafkaConsumer
 import json
+import time
 import pandas as pd
 
 from src.pipeline.inference_pipeline import InferencePipeline
 
-consumer = KafkaConsumer(
-    "fraud_topic",
-    bootstrap_servers='kafka:9092',
-    value_deserializer=lambda m: json.loads(m.decode('utf-8'))
-)
+
+# ✅ Retry logic for Kafka
+def create_consumer():
+    while True:
+        try:
+            consumer = KafkaConsumer(
+                "fraud_topic",
+                bootstrap_servers='kafka:9092',
+                value_deserializer=lambda m: json.loads(m.decode('utf-8')),
+                auto_offset_reset='earliest',
+                enable_auto_commit=True,
+                group_id="fraud-group"
+            )
+            print("✅ Connected to Kafka (Consumer)")
+            return consumer
+        except Exception:
+            print("❌ Kafka not ready (consumer), retrying...")
+            time.sleep(5)
+
+
+consumer = create_consumer()
 
 pipeline = InferencePipeline()
 
-output_file = "data/bi/predictions.csv"
+print("🚀 Consumer started...")
 
 for message in consumer:
-    data = message.value
+    try:
+        data = message.value
 
-    result = pipeline.predict(data)
+        result = pipeline.predict(data)
 
-    record = {**data, **result}
+        print("🔍 Processed:", result)
 
-    df = pd.DataFrame([record])
+        # ✅ Save to CSV (BI layer)
+        output = {
+            **data,
+            **result
+        }
 
-    df.to_csv(output_file, mode='a', header=not pd.io.common.file_exists(output_file), index=False)
+        df = pd.DataFrame([output])
 
-    print("Processed:", result)
+        df.to_csv(
+            "data/bi/predictions.csv",
+            mode="a",
+            header=not pd.io.common.file_exists("data/bi/predictions.csv"),
+            index=False
+        )
+
+    except Exception as e:
+        print(f"⚠️ Error processing message: {e}")
