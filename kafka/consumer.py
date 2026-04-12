@@ -2,8 +2,13 @@ from kafka import KafkaConsumer
 import json
 import time
 import pandas as pd
+import sys
 
 from src.pipeline.inference_pipeline import InferencePipeline
+from src.utils.logger import get_logger
+from src.utils.exception import CustomException
+
+logger = get_logger()
 
 
 # ✅ Retry logic for Kafka
@@ -37,7 +42,7 @@ for message in consumer:
 
         result = pipeline.predict(data)
 
-        print("🔍 Processed:", result)
+        logger.info(f"Processed: {result}")
 
         # ✅ Save to CSV (BI layer)
         output = {
@@ -55,4 +60,4 @@ for message in consumer:
         )
 
     except Exception as e:
-        print(f"⚠️ Error processing message: {e}")
+        logger.error(CustomException(e, sys))

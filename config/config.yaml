@@ -13,7 +13,7 @@ training:
 
 cost:
   false_negative: 10000
-  false_positive: 200
+  false_positive: 500
 
 tuning:
   n_iter: 10

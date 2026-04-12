@@ -6,7 +6,7 @@ credit-card-fraud-detection-project
 │   ├── __pycache__/
 │   │   ├── __init__.cpython-311.pyc [204 bytes]
 │   │   └── main.cpython-311.pyc [1.77 KB]
-│   ├── Dockerfile [209 bytes]
+│   ├── Dockerfile [274 bytes]
 │   ├── __init__.py [0 bytes]
 │   └── main.py [879 bytes]
 ├── app_ui/
@@ -20,12 +20,13 @@ credit-card-fraud-detection-project
 │   └── config.yaml [340 bytes]
 ├── data/
 │   ├── bi/
+│   │   └── predictions.csv [9.68 MB]
 │   ├── processed/
 │   └── raw/
 │       └── fraudTest.csv [132.96 MB]
 ├── kafka/
-│   ├── consumer.py [0 bytes]
-│   └── producer.py [0 bytes]
+│   ├── consumer.py [1.44 KB]
+│   └── producer.py [1.11 KB]
 ├── mlruns/
 ├── models/
 │   ├── encoding_maps.pkl [55.99 KB]
@@ -34,22 +35,20 @@ credit-card-fraud-detection-project
 │   └── train_columns.pkl [987 bytes]
 ├── notebooks/
 │   └── model_training.ipynb [186.50 KB]
-├── scripts/
-│   └── setup_ec2.sh [0 bytes]
 ├── src/
 │   ├── __pycache__/
 │   │   └── __init__.cpython-311.pyc [197 bytes]
 │   ├── feature_engineering/
 │   │   ├── __init__.py [0 bytes]
-│   │   └── features.py [0 bytes]
+│   │   └── features.py [1.29 KB]
 │   ├── ingestion/
 │   │   ├── __init__.py [0 bytes]
-│   │   └── data_loader.py [0 bytes]
+│   │   └── data_loader.py [80 bytes]
 │   ├── model/
 │   │   ├── __init__.py [0 bytes]
-│   │   ├── evaluate.py [0 bytes]
+│   │   ├── evaluate.py [545 bytes]
 │   │   ├── predict.py [0 bytes]
-│   │   └── train.py [0 bytes]
+│   │   └── train.py [879 bytes]
 │   ├── pipeline/
 │   │   ├── __pycache__/
 │   │   │   ├── __init__.cpython-311.pyc [206 bytes]
@@ -58,11 +57,11 @@ credit-card-fraud-detection-project
 │   │   │   └── training_pipeline.cpython-311.pyc [9.77 KB]
 │   │   ├── __init__.py [0 bytes]
 │   │   ├── examine.py [471 bytes]
-│   │   ├── inference_pipeline.py [2.18 KB]
-│   │   └── training_pipeline.py [5.87 KB]
+│   │   ├── inference_pipeline.py [1.96 KB]
+│   │   └── training_pipeline.py [2.61 KB]
 │   ├── preprocessing/
 │   │   ├── __init__.py [0 bytes]
-│   │   └── preprocess.py [0 bytes]
+│   │   └── preprocess.py [359 bytes]
 │   ├── utils/
 │   │   ├── __init__.py [0 bytes]
 │   │   ├── config.py [0 bytes]
@@ -71,8 +70,8 @@ credit-card-fraud-detection-project
 │   │   └── logger.py [0 bytes]
 │   └── __init__.py [0 bytes]
 ├── Dockerfile [0 bytes]
-├── docker-compose.yml [433 bytes]
-├── requirements.txt [80 bytes]
+├── docker-compose.yml [1.42 KB]
+├── requirements.txt [93 bytes]
 └── setup.py [1.18 KB]
 ```
 
@@ -81,7 +80,7 @@ credit-card-fraud-detection-project
 
 ```plaintext
 Root Folder: credit-card-fraud-detection-project
-Total Folders: 23
+Total Folders: 22
 Total Files: 49
 File Types:
   - .yml Files: 1
@@ -91,13 +90,12 @@ File Types:
   - .pyc Files: 7
   - .html Files: 1
   - .yaml Files: 1
-  - .csv Files: 1
+  - .csv Files: 2
   - .pkl Files: 4
   - .ipynb Files: 1
-  - .sh Files: 1
 Largest File: fraudTest.csv [132.96 MB]
 Smallest File: Dockerfile [0 bytes]
-Total Project Size: 133.51 MB
+Total Project Size: 143.20 MB
 Ignored Files and Folders:
   - venv
 ```
